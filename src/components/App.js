@@ -1,44 +1,40 @@
-import React, { Profiler, useMemo } from "react";
-import { useState } from "react";
+import React, { useState, useMemo } from "react";
+import expensiveOperation from "../function.js";
 import "../styles/App.css";
-import primeNumber from "../function";
 
 const App = () => {
   return <OptimizeTheOperation />;
 };
 
-const OptimizeTheOperation = ({ onClick }) => {
-  const [number, setNumber] = useState(10000);
-
-  const prime = primeNumber(number);
+const OptimizeTheOperation = () => {
+  const [number, setNumber] = useState(1);
+  const array = useMemo(() => 
+                        
+  expensiveOperation(number), [number]);
 
   const submitHandler = (event) => {
     event.preventDefault();
-    setNumber(Number(event.target.num.value));
+    setNumber(parseInt(event.target.num.value, 10));
   };
 
   return (
     <div>
-      <br />
       Enter the number:
       <form onSubmit={submitHandler}>
-        <input id="num" />
+        <input id="num" defaultValue={number} />
         <button id="submit" type="submit">
-          Click me 
+          Click me
         </button>
       </form>
       <br />
-      <div className="width">
-        Result of expensive operation:
-        <ul>
-          {prime.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-      <br />
+      Result of expensive operation:
+      <ul id="result">
+        {array.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default App;
+export default App;
